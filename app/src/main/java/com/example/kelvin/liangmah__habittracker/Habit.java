@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by Kelvin on 9/26/2016.
  */
-public class Habit {
+public abstract class Habit {
     private String habitName;
     private Date date;
 
@@ -18,11 +18,18 @@ public class Habit {
         this.date = date;
     }
 
+    public abstract Boolean isImportant();
+
     public String getHabitName() {
         return habitName;
     }
 
     public Date getDate() {
         return date;
+    }
+
+    @Override
+    public String toString(){
+        return  habitName;
     }
 }

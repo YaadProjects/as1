@@ -91,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
             case (add_habit_request) : {
                 if(resultCode == Activity.RESULT_OK) {
                     String message = data.getStringExtra("habitResult");
-                    Habit newHabit = new Habit(message);
+                    if(message == null) {
+                        break;
+                    }
+                    Habit newHabit = new Normal_Habit(message);
                     habitList.add(newHabit);
                     adapter.notifyDataSetChanged();
                     saveInFile();
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
 
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Normal_Habit>>(){}.getType();
 
             habitList = gson.fromJson(in,listType);
 
