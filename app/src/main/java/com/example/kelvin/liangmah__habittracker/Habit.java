@@ -11,11 +11,20 @@ public abstract class Habit {
 
     public Habit(String habitName) {
         this.habitName = habitName;
+        this.date = new Date();
     }
 
     public Habit(String habitName, Date date) {
         this.habitName = habitName;
         this.date = date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setHabitName(String habitName) {
+        this.habitName = habitName;
     }
 
     public abstract Boolean isImportant();

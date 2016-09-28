@@ -5,14 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/black_light">
 
     <TextView
         android:id="@+id/AddHabitTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
-        android:text="What Days Does your Habit occur?"/>
+        android:text="What Days Does your Habit occur?"
+        android:textSize="25dp"
+        android:textColor="#FFFFFF"/>
+
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listDays"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_vertical"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_below="@+id/AddHabitTitle"
+        android:layout_above="@+id/button2"
+        android:layout_alignEnd="@+id/button2">
+    </ListView>
 
     <Button
         android:layout_width="wrap_content"
@@ -40,7 +59,8 @@
         android:hint="@string/habit_name"
         android:layout_below="@+id/button2"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/button" />
+        android:layout_toStartOf="@+id/button"
+        android:textColor="#FFFFFF"/>
 
 
 </RelativeLayout>

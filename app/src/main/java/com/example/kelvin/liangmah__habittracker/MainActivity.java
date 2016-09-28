@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        long date = System.currentTimeMillis();
+        TextView dateNow = (TextView) findViewById(R.id.currentDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        String dateString = sdf.format(date);
+        dateNow.setText(dateString);
 
         oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
         Button clearButton = (Button) findViewById(R.id.options);
@@ -91,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             case (add_habit_request) : {
                 if(resultCode == Activity.RESULT_OK) {
                     String message = data.getStringExtra("habitResult");
-                    if(message == null) {
+                    if(message == null || message.isEmpty()) {
                         break;
                     }
                     Habit newHabit = new Normal_Habit(message);

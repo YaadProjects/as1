@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">liangmah--HabitTracker</string>
-    <string name="Edit">Edit</string>
+    <string name="Edit">Clear</string>
    <string name="habit_name">Name of Habit</string>
 </resources>

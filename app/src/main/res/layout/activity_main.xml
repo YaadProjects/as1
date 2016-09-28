@@ -2,13 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
+android:background="@color/black_light"
 android:orientation="vertical" >
 
 <TextView
     android:id="@+id/habitsTitle"
-    android:layout_width="fill_parent"
+    android:layout_width="252dp"
     android:layout_height="wrap_content"
-    android:text="YOUR HABITS NIGGA" />
+    android:textSize="15dp"
+    android:textColor="#2D9DC8"
+    android:text="Welcome to HabitTracker Today is:" />
+
+<TextView
+    android:id="@+id/currentDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|left"
+    android:textSize="20dp"
+    android:textColor="#2D9DC8"/>
 
 <ListView
     android:id="@+id/oldHabitsList"
