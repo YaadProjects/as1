@@ -35,38 +35,40 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+// Main activity of habittracker
+// displays the current day's activities
+// other activities are started from here using the controller
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String FILENAME = "file.sav";
     private ListView oldHabitsList;
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
     private ArrayAdapter<Habit> adapter;
+    // intent requests
     static final int add_habit_request = 1;
     static final int history_request = 2;
     private int curPos = 0;
+    private SaveLoad_Controller saveController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        saveController = new SaveLoad_Controller(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        long date = System.currentTimeMillis();
-        TextView updateText = (TextView) findViewById(R.id.habitsTitle);
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-        String dateString = sdf.format(date).toString();
-        updateText.setText("Welcome to Habit Tracker today is: " + dateString);
-
-
+        // clears list of habits
         oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
         Button clearButton = (Button) findViewById(R.id.options);
         clearButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v) {
                 // clear list
-                clear();
+                saveController.clear();
+                adapter.notifyDataSetChanged();
             }
         });
 
+        // allows for list to be clickable
         oldHabitsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -77,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Code From Lonely Twitter
+    @Override
+    protected void onStart() {
+        super.onStart();
+        habitList = saveController.loadFromFile();
+        adapter = new ArrayAdapter<Habit>(this, R.layout.habit_view, habitList);
+        oldHabitsList.setAdapter(adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    // code to allow for menu option to add a habit
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -109,10 +120,13 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, history_request);
     }
 
+    // code to handle changes made by other activities
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // checks what request code was used
         switch(requestCode) {
+            // add the new habit
             case (add_habit_request): {
                 if (resultCode == Activity.RESULT_OK) {
                     String message = data.getStringExtra("habitResult");
@@ -124,81 +138,31 @@ public class MainActivity extends AppCompatActivity {
                     Habit newHabit = new Normal_Habit(message, date, daysOfHabit);
                     habitList.add(newHabit);
                     adapter.notifyDataSetChanged();
-                    saveInFile();
+                    saveController.saveInFile();
                 }
             }
 
+            // update habit that has changed
             case (history_request): {
                 if (resultCode == Activity.RESULT_OK) {
                     if(requestCode != 2) {break;}
                     // TODO handle updated history
                     String isDelete = data.getStringExtra("Delete");
+                    // delete the habit
                     if(isDelete.equals("Delete")) {
                         habitList.remove(curPos);
                         adapter.notifyDataSetChanged();
-                        saveInFile();
+                        saveController.saveInFile();
                     } else  {
+                        // update habit stats
                         Habit updateHabit = (Habit) data.getSerializableExtra("habitResult");
                         habitList.remove(curPos);
                         habitList.add(curPos,updateHabit);
                         adapter.notifyDataSetChanged();
-                        saveInFile();
+                        saveController.saveInFile();
                     }
                 }
             }
         }
-    }
-
-
-    // Code From Lonely Twitter
-    @Override
-    protected void onStart() {
-        super.onStart();
-        loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this, R.layout.habit_view, habitList);
-        oldHabitsList.setAdapter(adapter);
-    }
-
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-
-            Gson gson = new Gson();
-
-            // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<ArrayList<Normal_Habit>>(){}.getType();
-
-            habitList = gson.fromJson(in,listType);
-
-        } catch (FileNotFoundException e) {
-            habitList = new ArrayList<Habit>();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    private void saveInFile() {
-        try {
-            FileOutputStream fos = openFileOutput(FILENAME, 0);
-
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
-            Gson gson = new Gson();
-            gson.toJson(habitList, out);
-            out.flush();
-
-            fos.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    public void clear() {
-        habitList.clear();
-        deleteFile(FILENAME); // delete file
-        adapter.notifyDataSetChanged(); // update}
     }
 }

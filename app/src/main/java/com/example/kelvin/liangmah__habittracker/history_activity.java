@@ -62,6 +62,8 @@ public class history_activity extends AppCompatActivity {
         textView.setText(("Times Completed: " + newCount));
     }
 
+    // sets the habit text view
+    // finds info within habit class
     public void setHabitViews(Habit currentHabit) {
 
         // Set the text views
@@ -76,6 +78,8 @@ public class history_activity extends AppCompatActivity {
         textView.setText(findDays(days));
     }
 
+    // iterates through the list of days contained within habit
+    // finds the days in which habit is supposed to occur
     public String findDays( ArrayList<String> days) {
         String daysOfHabit = "Days Habit occurs:\n\n ";
         for(String day : days) {

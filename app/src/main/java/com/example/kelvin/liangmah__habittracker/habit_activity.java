@@ -13,6 +13,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+// this class handles the activity in which
+// the user can add habits
+// class handles data of days the habit occurs and habit name
 public class habit_activity extends AppCompatActivity {
     private EditText bodyText;
     private ListView dayList;
@@ -32,7 +35,7 @@ public class habit_activity extends AppCompatActivity {
         dayList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         dayList.setItemsCanFocus(false);
         dayList.setAdapter(adapter);
-
+        // checks which days are checked off
         dayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -41,10 +44,9 @@ public class habit_activity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
+    // adds the habit, sending data back to main activity
     public void addHabit(View view) {
         Intent intent = new Intent();
         String habit_name = bodyText.getText().toString();
@@ -60,8 +62,6 @@ public class habit_activity extends AppCompatActivity {
     public void cancelHabit(View view) {
         finish();
     }
-
-
 }
 
 

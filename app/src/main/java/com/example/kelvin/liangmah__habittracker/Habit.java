@@ -1,6 +1,9 @@
 package com.example.kelvin.liangmah__habittracker;
 
+import android.widget.TextView;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -69,6 +72,8 @@ public abstract class Habit implements Serializable {
 
     @Override
     public String toString(){
-        return  habitName + " | created on: " + date.toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        String dateString = sdf.format(date).toString();
+        return  habitName + " | created on: " + dateString;
     }
 }
