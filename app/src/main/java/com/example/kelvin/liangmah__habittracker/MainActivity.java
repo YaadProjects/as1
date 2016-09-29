@@ -43,27 +43,27 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<Habit> adapter;
     static final int add_habit_request = 1;
     static final int history_request = 2;
+    private int curPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         long date = System.currentTimeMillis();
-        TextView dateNow = (TextView) findViewById(R.id.currentDate);
+        TextView updateText = (TextView) findViewById(R.id.habitsTitle);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-        String dateString = sdf.format(date);
-        dateNow.setText(dateString);
+        String dateString = sdf.format(date).toString();
+        updateText.setText("Welcome to Habit Tracker today is: " + dateString);
+
 
         oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
         Button clearButton = (Button) findViewById(R.id.options);
         clearButton.setOnClickListener(new View.OnClickListener()
-
         {
             public void onClick(View v) {
                 // clear list
-                habitList.clear();
-                deleteFile(FILENAME); // delete file
-                adapter.notifyDataSetChanged(); // update}
+                clear();
             }
         });
 
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Habit selectedHabit = habitList.get(position);
+                curPos = position;
                 loadHistoryPage(selectedHabit);
             }
         });
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     public void loadHabitPage() {
         Intent intent = new Intent(this, habit_activity.class);
         startActivityForResult(intent, add_habit_request);
-       // onActivityResult(add_habit_request, Activity.RESULT_OK, intent);
     }
 
     public void loadHistoryPage(Habit myHabit) {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             case (add_habit_request): {
                 if (resultCode == Activity.RESULT_OK) {
                     String message = data.getStringExtra("habitResult");
-                    ArrayList<String> daysOfHabit = data.getStringArrayListExtra("daysOfHabit");
+                    ArrayList<String> daysOfHabit = data.getStringArrayListExtra("daysOfWeek");
                     Date date = new Date();
                     if (message == null || message.isEmpty()) {
                         break;
@@ -130,7 +130,20 @@ public class MainActivity extends AppCompatActivity {
 
             case (history_request): {
                 if (resultCode == Activity.RESULT_OK) {
+                    if(requestCode != 2) {break;}
                     // TODO handle updated history
+                    String isDelete = data.getStringExtra("Delete");
+                    if(isDelete.equals("Delete")) {
+                        habitList.remove(curPos);
+                        adapter.notifyDataSetChanged();
+                        saveInFile();
+                    } else  {
+                        Habit updateHabit = (Habit) data.getSerializableExtra("habitResult");
+                        habitList.remove(curPos);
+                        habitList.add(curPos,updateHabit);
+                        adapter.notifyDataSetChanged();
+                        saveInFile();
+                    }
                 }
             }
         }
@@ -181,5 +194,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException();
         }
+    }
+
+    public void clear() {
+        habitList.clear();
+        deleteFile(FILENAME); // delete file
+        adapter.notifyDataSetChanged(); // update}
     }
 }

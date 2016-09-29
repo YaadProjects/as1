@@ -65,7 +65,7 @@ public abstract class Habit implements Serializable {
 
     public int getCount() { return this.count; }
 
-    public void increaseCount() { this.count =+ 1; }
+    public void increaseCount() { this.count++; }
 
     @Override
     public String toString(){

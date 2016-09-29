@@ -44,7 +44,8 @@
         android:text="Completed"
         android:id="@+id/button3"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="raiseCount"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
         android:text="Delete"
         android:id="@+id/button4"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="delete"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -60,5 +62,16 @@
         android:text="Done"
         android:id="@+id/button5"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="done"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/days"
+        android:layout_marginBottom="115dp"
+        android:layout_above="@+id/button4"
+        android:textColor="#FFFFFF"
+        android:layout_alignStart="@+id/habitCount" />
 </RelativeLayout>

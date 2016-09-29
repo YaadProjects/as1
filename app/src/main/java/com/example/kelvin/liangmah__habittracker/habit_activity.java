@@ -23,10 +23,9 @@ public class habit_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_activity);
+
         bodyText = (EditText) findViewById(R.id.habit_name);
         dayList = (ListView) findViewById(R.id.listDays);
         adapter = new ArrayAdapter<String>(this, R.layout.list_day, days);
@@ -47,6 +46,9 @@ public class habit_activity extends AppCompatActivity {
     public void addHabit(View view) {
         Intent intent = new Intent();
         String habit_name = bodyText.getText().toString();
+        if(habit_name == null || daysOfHabit.size() == 0) {
+            finish();
+        }
         intent.putStringArrayListExtra("daysOfWeek", daysOfHabit);
         intent.putExtra("habitResult", habit_name);
         setResult(Activity.RESULT_OK, intent);
