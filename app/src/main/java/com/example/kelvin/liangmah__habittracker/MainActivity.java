@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
     private ArrayAdapter<Habit> adapter;
     static final int add_habit_request = 1;
+    static final int history_request = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +59,23 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener()
 
         {
-            public void onClick (View v) {
+            public void onClick(View v) {
                 // clear list
                 habitList.clear();
                 deleteFile(FILENAME); // delete file
                 adapter.notifyDataSetChanged(); // update}
             }
         });
+
+        oldHabitsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Habit selectedHabit = habitList.get(position);
+                loadHistoryPage(selectedHabit);
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,23 +99,38 @@ public class MainActivity extends AppCompatActivity {
     public void loadHabitPage() {
         Intent intent = new Intent(this, habit_activity.class);
         startActivityForResult(intent, add_habit_request);
-        onActivityResult(add_habit_request, Activity.RESULT_OK, intent);
+       // onActivityResult(add_habit_request, Activity.RESULT_OK, intent);
+    }
+
+    public void loadHistoryPage(Habit myHabit) {
+        Intent intent = new Intent(this, history_activity.class);
+        intent.putExtra("habit", myHabit);
+        setResult(Activity.RESULT_OK, intent);
+        startActivityForResult(intent, history_request);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode) {
-            case (add_habit_request) : {
-                if(resultCode == Activity.RESULT_OK) {
+            case (add_habit_request): {
+                if (resultCode == Activity.RESULT_OK) {
                     String message = data.getStringExtra("habitResult");
-                    if(message == null || message.isEmpty()) {
+                    ArrayList<String> daysOfHabit = data.getStringArrayListExtra("daysOfHabit");
+                    Date date = new Date();
+                    if (message == null || message.isEmpty()) {
                         break;
                     }
-                    Habit newHabit = new Normal_Habit(message);
+                    Habit newHabit = new Normal_Habit(message, date, daysOfHabit);
                     habitList.add(newHabit);
                     adapter.notifyDataSetChanged();
                     saveInFile();
+                }
+            }
+
+            case (history_request): {
+                if (resultCode == Activity.RESULT_OK) {
+                    // TODO handle updated history
                 }
             }
         }
@@ -113,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
     // Code From Lonely Twitter
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
         loadFromFile();
         adapter = new ArrayAdapter<Habit>(this, R.layout.habit_view, habitList);
@@ -133,10 +159,8 @@ public class MainActivity extends AppCompatActivity {
             habitList = gson.fromJson(in,listType);
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             habitList = new ArrayList<Habit>();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }
@@ -153,10 +177,8 @@ public class MainActivity extends AppCompatActivity {
 
             fos.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException();
         }
     }
