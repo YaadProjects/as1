@@ -77,7 +77,7 @@ public class history_activity extends AppCompatActivity {
     }
 
     public String findDays( ArrayList<String> days) {
-        String daysOfHabit = "Days Habit occurs: ";
+        String daysOfHabit = "Days Habit occurs:\n\n ";
         for(String day : days) {
             if(day == "Monday") {
                 daysOfHabit = daysOfHabit + "M ";

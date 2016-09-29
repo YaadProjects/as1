@@ -36,7 +36,9 @@ public class habit_activity extends AppCompatActivity {
         dayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                daysOfHabit.add(days[position]);
+                if(daysOfHabit.contains(days[position]) == false) {
+                    daysOfHabit.add(days[position]);
+                }
             }
         });
 
