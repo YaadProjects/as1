@@ -30,7 +30,7 @@ public class history_activity extends AppCompatActivity {
         // get habit obj
         Intent intent = getIntent();
         currentHabit = (Habit) intent.getSerializableExtra("habit");
-       setHabitViews(currentHabit);
+        setHabitViews(currentHabit);
 
     }
 
@@ -83,7 +83,7 @@ public class history_activity extends AppCompatActivity {
     public String findDays( ArrayList<String> days) {
         String daysOfHabit = "Days Habit occurs:\n\n ";
         for(String day : days) {
-            if(day == "Monday") {
+            if(day.equals("Monday")) {
                 daysOfHabit = daysOfHabit + "M ";
             }
             if(day.equals("Tuesday")) {

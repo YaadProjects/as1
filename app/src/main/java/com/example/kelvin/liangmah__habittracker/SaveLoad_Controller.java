@@ -13,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -22,12 +21,11 @@ import java.util.ArrayList;
  */
 public class SaveLoad_Controller {
     private Context context;
-    private ArrayList<Habit> habitList = new ArrayList<Habit>();
+    private ArrayList<Habit> MasterHabitList = new ArrayList<Habit>();
     private static final String FILENAME = "file.sav";
 
     public SaveLoad_Controller(Context context) {
         this.context = context;
-
     }
 
     public ArrayList<Habit> loadFromFile() {
@@ -41,14 +39,15 @@ public class SaveLoad_Controller {
             Type listType = new TypeToken<ArrayList<Normal_Habit>>() {
             }.getType();
 
-            habitList = gson.fromJson(in, listType);
+            MasterHabitList = gson.fromJson(in, listType);
 
         } catch (FileNotFoundException e) {
-            habitList = new ArrayList<Habit>();
+            MasterHabitList = new ArrayList<Habit>();
         } catch (IOException e) {
             throw new RuntimeException();
         }
-        return habitList;
+
+        return MasterHabitList;
     }
 
     public void saveInFile() {
@@ -58,7 +57,7 @@ public class SaveLoad_Controller {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(habitList, out);
+            gson.toJson(MasterHabitList, out);
             out.flush();
 
             fos.close();
@@ -70,8 +69,7 @@ public class SaveLoad_Controller {
     }
 
     public void clear() {
-        habitList.clear();
+        MasterHabitList.clear();
         context.deleteFile(FILENAME); // delete file
     }
-
 }

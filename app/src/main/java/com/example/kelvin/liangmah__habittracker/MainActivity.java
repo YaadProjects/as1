@@ -33,6 +33,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 // Main activity of habittracker
@@ -43,28 +44,47 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView oldHabitsList;
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
+    private ArrayList<Habit> MasterHabitList = new ArrayList<>();
     private ArrayAdapter<Habit> adapter;
     // intent requests
     static final int add_habit_request = 1;
     static final int history_request = 2;
     private int curPos = 0;
     private SaveLoad_Controller saveController;
+    private int dayIndex;
+    private String dayOfWeek = getDayOfWeek(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+    private final String[] week = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         saveController = new SaveLoad_Controller(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
+
+
+        // find current day
+        TextView textView = (TextView) findViewById(R.id.currentDay);
+        textView.setText(dayOfWeek + "'s Habits: ");
 
         // clears list of habits
-        oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
         Button clearButton = (Button) findViewById(R.id.options);
         clearButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v) {
                 // clear list
                 saveController.clear();
+                updateList();
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        Button dayButton = (Button) findViewById(R.id.changeDay);
+        dayButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) {
+               // TODO change day
+                day();
             }
         });
 
@@ -83,9 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        habitList = saveController.loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this, R.layout.habit_view, habitList);
-        oldHabitsList.setAdapter(adapter);
+        updateList();
     }
 
     @Override
@@ -136,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     Habit newHabit = new Normal_Habit(message, date, daysOfHabit);
-                    habitList.add(newHabit);
-                    adapter.notifyDataSetChanged();
+                    MasterHabitList.add(newHabit);
                     saveController.saveInFile();
+                    updateList();
                 }
             }
 
@@ -150,19 +168,92 @@ public class MainActivity extends AppCompatActivity {
                     String isDelete = data.getStringExtra("Delete");
                     // delete the habit
                     if(isDelete.equals("Delete")) {
-                        habitList.remove(curPos);
-                        adapter.notifyDataSetChanged();
+                        MasterHabitList.remove(curPos);
                         saveController.saveInFile();
+                        updateList();
                     } else  {
                         // update habit stats
                         Habit updateHabit = (Habit) data.getSerializableExtra("habitResult");
-                        habitList.remove(curPos);
-                        habitList.add(curPos,updateHabit);
-                        adapter.notifyDataSetChanged();
+                        MasterHabitList.remove(curPos);
+                        MasterHabitList.add(curPos,updateHabit);
                         saveController.saveInFile();
+                        updateList();
                     }
                 }
             }
         }
+    }
+
+    // used when day button is clicked
+    // allows user to change day of the week
+    private void day () {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Pick The day of the week")
+                .setSingleChoiceItems(week, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dayIndex = whichButton;
+                        dayOfWeek = week[dayIndex];
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TextView textView = (TextView) findViewById(R.id.currentDay);
+                        textView.setText(dayOfWeek + "'s Habits: ");
+                        updateList();
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
+    private String getDayOfWeek(int value) {
+        String day = "";
+        switch (value) {
+            case 1:
+                day = "Sunday";
+                break;
+            case 2:
+                day = "Monday";
+                break;
+            case 3:
+                day = "Tuesday";
+                break;
+            case 4:
+                day = "Wednesday";
+                break;
+            case 5:
+                day = "Thursday";
+                break;
+            case 6:
+                day = "Friday";
+                break;
+            case 7:
+                day = "Saturday";
+                break;
+        }
+        return day;
+    }
+
+    public ArrayList<Habit> habitList_forCurrentDay(String day, ArrayList<Habit> curList) {
+        ArrayList<Habit> newList = new ArrayList<Habit>();
+        ArrayList<String> daysOfHabit;
+        for(Habit habit : curList) {
+            daysOfHabit = habit.getDaysOfHabit();
+            if(daysOfHabit.contains(day)) {
+                newList.add(habit);
+            }
+        }
+        return newList;
+    }
+
+    public void updateList() {
+        MasterHabitList = saveController.loadFromFile();
+        habitList = habitList_forCurrentDay(dayOfWeek, MasterHabitList);
+        adapter = new ArrayAdapter<Habit>(this,
+                R.layout.habit_view, habitList);
+        oldHabitsList.setAdapter(adapter);
     }
 }
