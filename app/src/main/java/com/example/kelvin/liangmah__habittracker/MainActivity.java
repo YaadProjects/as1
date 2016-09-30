@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Habit selectedHabit = habitList.get(position);
-                curPos = position;
+                curPos = MasterHabitList.indexOf(selectedHabit);
                 loadHistoryPage(selectedHabit);
             }
         });
@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
             case (history_request): {
                 if (resultCode == Activity.RESULT_OK) {
                     if(requestCode != 2) {break;}
-                    // TODO handle updated history
                     String isDelete = data.getStringExtra("Delete");
                     // delete the habit
                     if(isDelete.equals("Delete")) {

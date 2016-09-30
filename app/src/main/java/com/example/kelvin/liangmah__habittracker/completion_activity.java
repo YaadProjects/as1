@@ -64,5 +64,32 @@ public class completion_activity extends AppCompatActivity {
         startActivityForResult(intent, history_request);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // checks what request code was used
+        switch (requestCode) {
+            // add the new habit
+            case (history_request): {
+                // update habit stats
+                Habit updateHabit = (Habit) data.getSerializableExtra("habitResult");
+                int count = updateHabit.getCount();
+                MasterHabitList.remove(curPos);
+                MasterHabitList.add(curPos, updateHabit);
+                saveController.saveInFile();
+                updateList();
+            }
+        }
+    }
+
+    public void updateList() {
+        MasterHabitList = saveController.loadFromFile();
+        habitList = new ArrayList<Habit>();
+        completedHabits();
+        adapter = new ArrayAdapter<Habit>(this,
+                R.layout.habit_view, habitList);
+        oldHabitsList.setAdapter(adapter);
+    }
+
     public void back(View view) {finish();}
 }

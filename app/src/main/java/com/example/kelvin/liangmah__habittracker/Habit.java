@@ -74,12 +74,18 @@ public abstract class Habit implements Serializable {
 
     public void increaseCount() { this.count++; }
 
+    public void decreaseCount() {this.count--; }
+
     public void addDate(Date date) {
         this.datesCompleted.add(date);
     }
 
     public ArrayList<Date> getDatesCompleted() {
         return this.datesCompleted;
+    }
+
+    public void removeDate(Date dateRM) {
+        this.datesCompleted.remove(dateRM);
     }
 
     @Override
