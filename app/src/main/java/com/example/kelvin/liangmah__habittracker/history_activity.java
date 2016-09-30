@@ -129,4 +129,6 @@ public class history_activity extends AppCompatActivity {
         }
         return daysOfHabit;
     }
+
+    // TODO add date editing
 }

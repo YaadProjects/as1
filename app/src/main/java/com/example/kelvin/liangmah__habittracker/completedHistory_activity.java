@@ -15,6 +15,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+// this class runs the activity where user can check the dates in which
+// a habit is completed
+// completions can be deleted here
 public class completedHistory_activity extends AppCompatActivity {
 
     private Habit currentHabit;
@@ -55,8 +59,8 @@ public class completedHistory_activity extends AppCompatActivity {
         super.onStart();
     }
 
-    // used when day button is clicked
-    // allows user to change day of the week
+    // used when an element in the list is clicked
+    // allows user to delete a date of completion
     private void delete () {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Would you like to delete this completion?")
@@ -70,14 +74,15 @@ public class completedHistory_activity extends AppCompatActivity {
                 .create();
         dialog.show();
     }
-
+    // deletes the date from habit obj
     public void deleteDate() {
         Date deleteDate = dates.get(datePos);
         currentHabit.decreaseCount();
         currentHabit.removeDate(deleteDate);
         adapter.notifyDataSetChanged();
     }
-
+    // returns to history_activity
+    // sends the updated habit obj
     public void back(View view) {
         Intent intent = new Intent();
         intent.putExtra("habitResult", currentHabit);

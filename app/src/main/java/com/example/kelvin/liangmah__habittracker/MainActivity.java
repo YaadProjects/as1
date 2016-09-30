@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
-
+        // sets button to listen so it can call the appropriate dialog
         Button dayButton = (Button) findViewById(R.id.changeDay);
         dayButton.setOnClickListener(new View.OnClickListener()
         {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 day();
             }
         });
-
+        // sets button to listen so it can start the next activity
         Button historyButton = (Button) findViewById(R.id.history);
         historyButton.setOnClickListener(new View.OnClickListener()
         {
@@ -116,19 +116,19 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    // starts activity for adding a habit
     public void loadHabitPage() {
         Intent intent = new Intent(this, habit_activity.class);
         startActivityForResult(intent, add_habit_request);
     }
-
+    // starts activity to show history of a single habit
     public void loadHistoryPage(Habit myHabit) {
         Intent intent = new Intent(this, history_activity.class);
         intent.putExtra("habit", myHabit);
         setResult(Activity.RESULT_OK, intent);
         startActivityForResult(intent, history_request);
     }
-
+    // starts activity to show history of all completed habits
     public void loadCompletionHistory() {
         Intent intent = new Intent(this, completion_activity.class);
         setResult(Activity.RESULT_OK, intent);
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return day;
     }
-
+    // generates a new habitlist for the habits that occur on the given day
     public ArrayList<Habit> habitList_forCurrentDay(String day, ArrayList<Habit> curList) {
         ArrayList<Habit> newList = new ArrayList<Habit>();
         ArrayList<String> daysOfHabit;
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return newList;
     }
-
+    // updates all lists and resets the view
     public void updateList() {
         MasterHabitList = saveController.loadFromFile();
         habitList = habitList_forCurrentDay(dayOfWeek, MasterHabitList);

@@ -49,6 +49,7 @@ public class completion_activity extends AppCompatActivity {
         super.onStart();
     }
 
+    // makes a new list of habits that have been completed
     public void completedHabits() {
         for(Habit habit : MasterHabitList) {
             if (habit.getCount() > 0) {
@@ -57,6 +58,7 @@ public class completion_activity extends AppCompatActivity {
         }
     }
 
+    // starts the activity completedHistory
     public void loadHistoryPage(Habit myHabit) {
         Intent intent = new Intent(this, completedHistory_activity.class);
         intent.putExtra("habit", myHabit);
@@ -64,6 +66,8 @@ public class completion_activity extends AppCompatActivity {
         startActivityForResult(intent, history_request);
     }
 
+
+    // handles the return actions when completedHistory finishes
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -81,7 +85,8 @@ public class completion_activity extends AppCompatActivity {
             }
         }
     }
-
+    // updates the list once activity
+    // returns from the completedHistory activity
     public void updateList() {
         MasterHabitList = saveController.loadFromFile();
         habitList = new ArrayList<Habit>();
