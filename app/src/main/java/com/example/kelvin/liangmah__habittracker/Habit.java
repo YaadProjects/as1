@@ -20,6 +20,7 @@ public abstract class Habit implements Serializable {
     private String habitName;
     private Date date;
     private ArrayList<String> daysOfHabit;
+    private ArrayList<Date> datesCompleted;
     private static final long serialVersionUID = 1L;
     private int count;
 
@@ -28,6 +29,7 @@ public abstract class Habit implements Serializable {
         this.date = new Date();
         this.daysOfHabit = new ArrayList<String>();
         this.count = 0;
+        this.datesCompleted = new ArrayList<Date>();
     }
 
     public Habit(String habitName, Date date) {
@@ -35,6 +37,7 @@ public abstract class Habit implements Serializable {
         this.date = date;
         this.daysOfHabit = new ArrayList<String>();
         this.count = 0;
+        this.datesCompleted = new ArrayList<Date>();
     }
 
     public Habit(String habitName, Date date, ArrayList<String> daysOfHabit) {
@@ -42,6 +45,7 @@ public abstract class Habit implements Serializable {
         this.date = date;
         this.daysOfHabit = daysOfHabit;
         this.count = 0;
+        this.datesCompleted = new ArrayList<Date>();
     }
 
     public void setDate(Date date) {
@@ -69,6 +73,14 @@ public abstract class Habit implements Serializable {
     public int getCount() { return this.count; }
 
     public void increaseCount() { this.count++; }
+
+    public void addDate(Date date) {
+        this.datesCompleted.add(date);
+    }
+
+    public ArrayList<Date> getDatesCompleted() {
+        return this.datesCompleted;
+    }
 
     @Override
     public String toString(){

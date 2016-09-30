@@ -10,6 +10,7 @@ import android.widget.Adapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 // This class handles the habit history
@@ -26,17 +27,20 @@ public class history_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_activity);
 
-
         // get habit obj
         Intent intent = getIntent();
         currentHabit = (Habit) intent.getSerializableExtra("habit");
         setHabitViews(currentHabit);
-
     }
 
     public void raiseCount(View view) {
         currentHabit.increaseCount();
         String newCount = String.valueOf(currentHabit.getCount());
+        ArrayList<Date> checkDate = currentHabit.getDatesCompleted();
+        Date date = new Date();
+        if(checkDate.contains(date) == false) {
+            currentHabit.addDate(date);
+        }
         updateTextView(newCount);
     }
 

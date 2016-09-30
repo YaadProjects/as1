@@ -6,32 +6,15 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     // intent requests
     static final int add_habit_request = 1;
     static final int history_request = 2;
+    static final int completion_request = 3;
     private int curPos = 0;
     private SaveLoad_Controller saveController;
     private int dayIndex;
@@ -83,8 +67,15 @@ public class MainActivity extends AppCompatActivity {
         dayButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v) {
-               // TODO change day
                 day();
+            }
+        });
+
+        Button historyButton = (Button) findViewById(R.id.history);
+        historyButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) {
+                loadCompletionHistory();
             }
         });
 
@@ -136,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("habit", myHabit);
         setResult(Activity.RESULT_OK, intent);
         startActivityForResult(intent, history_request);
+    }
+
+    public void loadCompletionHistory() {
+        Intent intent = new Intent(this, completion_activity.class);
+        setResult(Activity.RESULT_OK, intent);
+        startActivityForResult(intent, completion_request);
     }
 
     // code to handle changes made by other activities
