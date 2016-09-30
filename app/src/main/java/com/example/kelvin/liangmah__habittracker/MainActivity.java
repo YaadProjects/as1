@@ -21,7 +21,7 @@ import java.util.Date;
 
 // Main activity of habittracker
 // displays the current day's activities
-// other activities are started from here using the controller
+
 
 public class MainActivity extends AppCompatActivity {
 

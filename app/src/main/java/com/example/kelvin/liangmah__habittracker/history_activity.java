@@ -2,11 +2,13 @@ package com.example.kelvin.liangmah__habittracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,6 +33,22 @@ public class history_activity extends AppCompatActivity {
         Intent intent = getIntent();
         currentHabit = (Habit) intent.getSerializableExtra("habit");
         setHabitViews(currentHabit);
+
+        CheckBox checkBox1 = (CheckBox) findViewById(R.id.text1);
+        boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("checkBox1", false);
+        checkBox1.setChecked(checked);
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        switch (view.getId()) {
+            case R.id.text1:
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("checkBox1", checked).commit();
+                break;
+        }
     }
 
     public void raiseCount(View view) {

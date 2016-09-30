@@ -72,6 +72,27 @@
         android:id="@+id/days"
         android:layout_marginBottom="115dp"
         android:layout_above="@+id/button4"
-        android:textColor="@color/green_light"
+        android:textColor="#FFFFFF"
+        android:layout_alignEnd="@+id/habitCount"
         android:layout_alignStart="@+id/habitCount" />
+
+    <CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:gravity="center_vertical"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textColor="#2D9DC8"
+        android:text="Completed Today"
+        android:layout_above="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
+        android:onClick="onCheckboxClicked"/>
+
 </RelativeLayout>
+
+
+
