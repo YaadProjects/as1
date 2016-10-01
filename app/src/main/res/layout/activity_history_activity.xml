@@ -93,6 +93,3 @@
         android:onClick="onCheckboxClicked"/>
 
 </RelativeLayout>
-
-
-
