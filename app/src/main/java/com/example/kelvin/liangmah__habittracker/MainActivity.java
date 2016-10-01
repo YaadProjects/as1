@@ -3,6 +3,7 @@ package com.example.kelvin.liangmah__habittracker;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         updateList();
+        setFont();
     }
 
     @Override
@@ -251,5 +254,19 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<Habit>(this,
                 R.layout.habit_view, habitList);
         oldHabitsList.setAdapter(adapter);
+    }
+
+    // change fonts
+    public void setFont() {
+        TextView textview = (TextView) findViewById(R.id.currentDay);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "CaviarDreams_BoldItalic.ttf");
+        textview.setTypeface(typeface);
+        typeface = Typeface.createFromAsset(getAssets(), "Caviar_Dreams_Bold.ttf");
+        Button buttonText = (Button) findViewById(R.id.options);
+        buttonText.setTypeface(typeface);
+        buttonText = (Button) findViewById(R.id.changeDay);
+        buttonText.setTypeface(typeface);
+        buttonText = (Button) findViewById(R.id.history);
+        buttonText.setTypeface(typeface);
     }
 }

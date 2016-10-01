@@ -3,12 +3,14 @@ package com.example.kelvin.liangmah__habittracker;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ public class completedHistory_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_history_activity);
+        setFont();
 
         // get habit obj
         Intent intent = getIntent();
@@ -81,6 +84,17 @@ public class completedHistory_activity extends AppCompatActivity {
         currentHabit.removeDate(deleteDate);
         adapter.notifyDataSetChanged();
     }
+
+    // change fonts
+    public void setFont() {
+        TextView textview = (TextView) findViewById(R.id.habitTitle);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "CaviarDreams_BoldItalic.ttf");
+        textview.setTypeface(typeface);
+        typeface = Typeface.createFromAsset(getAssets(), "Caviar_Dreams_Bold.ttf");
+        Button buttonText = (Button) findViewById(R.id.button6);
+        buttonText.setTypeface(typeface);
+    }
+
     // returns to history_activity
     // sends the updated habit obj
     public void back(View view) {

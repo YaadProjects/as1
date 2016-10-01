@@ -2,15 +2,18 @@ package com.example.kelvin.liangmah__habittracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,21 +36,21 @@ public class history_activity extends AppCompatActivity {
         Intent intent = getIntent();
         currentHabit = (Habit) intent.getSerializableExtra("habit");
         setHabitViews(currentHabit);
-
-        CheckBox checkBox1 = (CheckBox) findViewById(R.id.text1);
-        boolean checked = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("checkBox1", false);
-        checkBox1.setChecked(checked);
+        completedToday();
+        setFont();
     }
 
-    public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-        switch (view.getId()) {
-            case R.id.text1:
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putBoolean("checkBox1", checked).commit();
-                break;
+    // sets checkbox view if habit was completed today
+    public void completedToday() {
+        if(currentHabit.hasCompletions()) {
+            Date curDate = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+            String curDateString = sdf.format(curDate).toString();
+            String recHabitCompleteDate = sdf.format(currentHabit.getDatesCompleted().get(currentHabit.getCount()-1));
+            if(curDateString.equals(recHabitCompleteDate)) {
+                CheckBox checkBox1 = (CheckBox) findViewById(R.id.text1);
+                checkBox1.setChecked(true);
+            }
         }
     }
 
@@ -60,6 +63,7 @@ public class history_activity extends AppCompatActivity {
             currentHabit.addDate(date);
         }
         updateTextView(newCount);
+        completedToday();
     }
 
     public void delete(View view) {
@@ -88,11 +92,14 @@ public class history_activity extends AppCompatActivity {
     // finds info within habit class
     public void setHabitViews(Habit currentHabit) {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy");
+        String curDateString = sdf.format(currentHabit.getDate()).toString();
+
         // Set the text views
         TextView textView = (TextView) findViewById(R.id.AddHabitTitle);
         textView.setText(currentHabit.getHabitName());
         textView = (TextView) findViewById(R.id.habit_date);
-        textView.setText("Added on: " + currentHabit.getDate().toString());
+        textView.setText("Added on: " + curDateString);
         textView = (TextView) findViewById(R.id.habitCount);
         textView.setText("Times Completed: " + String.valueOf(currentHabit.getCount()));
         textView = (TextView) findViewById(R.id.days);
@@ -130,5 +137,26 @@ public class history_activity extends AppCompatActivity {
         return daysOfHabit;
     }
 
-    // TODO add date editing
+    // change fonts
+    public void setFont() {
+        TextView textview = (TextView) findViewById(R.id.AddHabitTitle);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "CaviarDreams_BoldItalic.ttf");
+        textview.setTypeface(typeface);
+        typeface = Typeface.createFromAsset(getAssets(), "CaviarDreams.ttf");
+        textview = (TextView) findViewById(R.id.habit_date);
+        textview.setTypeface(typeface);
+        textview = (TextView) findViewById(R.id.habitCount);
+        textview.setTypeface(typeface);
+        textview = (TextView) findViewById(R.id.days);
+        textview.setTypeface(typeface);
+        CheckBox checkText = (CheckBox) findViewById(R.id.text1);
+        checkText.setTypeface(typeface);
+        typeface = Typeface.createFromAsset(getAssets(), "Caviar_Dreams_Bold.ttf");
+        Button buttonText = (Button) findViewById(R.id.button5);
+        buttonText.setTypeface(typeface);
+        buttonText = (Button) findViewById(R.id.button4);
+        buttonText.setTypeface(typeface);
+        buttonText = (Button) findViewById(R.id.button3);
+        buttonText.setTypeface(typeface);
+    }
 }

@@ -2,12 +2,15 @@ package com.example.kelvin.liangmah__habittracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ public class completion_activity extends AppCompatActivity {
         setContentView(R.layout.activity_completion_activity);
         saveController = new SaveLoad_Controller(this);
         oldHabitsList = (ListView) findViewById(R.id.oldHabitsList);
+        setFont();
 
         MasterHabitList = saveController.loadFromFile();
         completedHabits();
@@ -94,6 +98,16 @@ public class completion_activity extends AppCompatActivity {
         adapter = new ArrayAdapter<Habit>(this,
                 R.layout.habit_view, habitList);
         oldHabitsList.setAdapter(adapter);
+    }
+
+    // change fonts
+    public void setFont() {
+        TextView textview = (TextView) findViewById(R.id.textView);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "CaviarDreams_BoldItalic.ttf");
+        textview.setTypeface(typeface);
+        typeface = Typeface.createFromAsset(getAssets(), "Caviar_Dreams_Bold.ttf");
+        Button buttonText = (Button) findViewById(R.id.button6);
+        buttonText.setTypeface(typeface);
     }
 
     public void back(View view) {finish();}

@@ -88,6 +88,13 @@ public abstract class Habit implements Serializable {
         this.datesCompleted.remove(dateRM);
     }
 
+    public boolean hasCompletions() {
+        if(this.getDatesCompleted().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
