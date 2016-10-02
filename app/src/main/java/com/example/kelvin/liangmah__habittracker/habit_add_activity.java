@@ -19,7 +19,7 @@ import java.util.ArrayList;
 // this class handles the activity in which
 // the user can add habits
 // class handles data of days the habit occurs and habit name
-public class habit_activity extends AppCompatActivity {
+public class habit_add_activity extends AppCompatActivity {
     private EditText bodyText;
     private ListView dayList;
     private ArrayAdapter<String> adapter;

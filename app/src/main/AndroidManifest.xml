@@ -15,10 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".habit_activity" />
-        <activity android:name=".history_activity" />
-        <activity android:name=".completion_activity" />
-        <activity android:name=".completedHistory_activity"></activity>
+        <activity android:name=".habit_add_activity" />
+        <activity android:name=".habit_history" />
+        <activity android:name=".completed_habits_activity" />
+        <activity android:name=".completedHabitHistory_activity"></activity>
     </application>
 
 </manifest>

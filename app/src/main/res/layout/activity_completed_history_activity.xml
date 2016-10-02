@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/black_light"
-    tools:context="com.example.kelvin.liangmah__habittracker.completion_activity">
+    tools:context=".completed_habits_activity">
 
     <TextView
         android:layout_width="wrap_content"

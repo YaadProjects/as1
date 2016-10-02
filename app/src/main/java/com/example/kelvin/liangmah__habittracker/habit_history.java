@@ -23,7 +23,7 @@ import java.util.Date;
 // will also display days that habit is to be completed.
 // and will give options for the user to delete the habit, add to completion count
 
-public class history_activity extends AppCompatActivity {
+public class habit_history extends AppCompatActivity {
 
     private Habit currentHabit;
 

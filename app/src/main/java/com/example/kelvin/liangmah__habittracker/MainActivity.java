@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -121,19 +120,19 @@ public class MainActivity extends AppCompatActivity {
     }
     // starts activity for adding a habit
     public void loadHabitPage() {
-        Intent intent = new Intent(this, habit_activity.class);
+        Intent intent = new Intent(this, habit_add_activity.class);
         startActivityForResult(intent, add_habit_request);
     }
     // starts activity to show history of a single habit
     public void loadHistoryPage(Habit myHabit) {
-        Intent intent = new Intent(this, history_activity.class);
+        Intent intent = new Intent(this, habit_history.class);
         intent.putExtra("habit", myHabit);
         setResult(Activity.RESULT_OK, intent);
         startActivityForResult(intent, history_request);
     }
     // starts activity to show history of all completed habits
     public void loadCompletionHistory() {
-        Intent intent = new Intent(this, completion_activity.class);
+        Intent intent = new Intent(this, completed_habits_activity.class);
         setResult(Activity.RESULT_OK, intent);
         startActivityForResult(intent, completion_request);
     }

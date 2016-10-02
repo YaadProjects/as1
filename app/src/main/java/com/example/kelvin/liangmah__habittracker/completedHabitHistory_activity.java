@@ -21,7 +21,7 @@ import java.util.Date;
 // this class runs the activity where user can check the dates in which
 // a habit is completed
 // completions can be deleted here
-public class completedHistory_activity extends AppCompatActivity {
+public class completedHabitHistory_activity extends AppCompatActivity {
 
     private Habit currentHabit;
     private ListView oldDatesList;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class completion_activity extends AppCompatActivity {
+public class completed_habits_activity extends AppCompatActivity {
 
     private ListView oldHabitsList;
     private ArrayList<Habit> habitList = new ArrayList<Habit>();
@@ -64,7 +64,7 @@ public class completion_activity extends AppCompatActivity {
 
     // starts the activity completedHistory
     public void loadHistoryPage(Habit myHabit) {
-        Intent intent = new Intent(this, completedHistory_activity.class);
+        Intent intent = new Intent(this, completedHabitHistory_activity.class);
         intent.putExtra("habit", myHabit);
         setResult(Activity.RESULT_OK, intent);
         startActivityForResult(intent, history_request);
