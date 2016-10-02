@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+// class that displays all completed habits
 public class completed_habits_activity extends AppCompatActivity {
 
     private ListView oldHabitsList;
@@ -23,6 +23,7 @@ public class completed_habits_activity extends AppCompatActivity {
     private SaveLoad_Controller saveController;
     private int curPos = 0;
     private static final int history_request = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

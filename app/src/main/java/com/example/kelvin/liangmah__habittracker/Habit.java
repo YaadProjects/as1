@@ -1,7 +1,5 @@
 package com.example.kelvin.liangmah__habittracker;
 
-import android.widget.TextView;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

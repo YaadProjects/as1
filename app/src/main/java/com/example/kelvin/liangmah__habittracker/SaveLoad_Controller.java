@@ -19,6 +19,8 @@ import java.util.ArrayList;
 /**
  * Created by Kelvin on 9/28/2016.
  */
+
+// code from LonelyTwitter
 public class SaveLoad_Controller {
     private Context context;
     private ArrayList<Habit> MasterHabitList = new ArrayList<Habit>();
