@@ -4,6 +4,9 @@ Name: Kelvin Liang
 CCID:liangmah	
 Video URL: https://www.youtube.com/watch?v=6FVcPuF5KwU&feature=youtu.be
 
+NOTE: Tested the code on the lab machines and I had to change the compileSdkVersion to 23 and
+      buildToolsVersion to "23.0.3" for the code to build on the lab machine. I pushed these changes to github. I'am assuming 		that this is what you guys wanted. 
+
 
 ACTIVITIES:
 
